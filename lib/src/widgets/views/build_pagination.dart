@@ -36,7 +36,7 @@ class BuildPagination<T> extends StatelessWidget {
   final List<T> items;
 
   /// The builder to use to render the items.
-  final Widget Function(BuildContext, T, int) itemBuilder;
+  final Widget Function(BuildContext, T, T?, int) itemBuilder;
 
   /// The builder to use to render the separator.
   ///
@@ -91,7 +91,9 @@ class BuildPagination<T> extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             if (index >= items.length) return bottomLoader;
 
-            return itemBuilder(context, items[index], index);
+            final previous = index == 0 ? null : items[index - 1];
+
+            return itemBuilder(context, items[index], previous, index);
           },
           separatorBuilder: separatorBuilder,
         );
@@ -108,7 +110,9 @@ class BuildPagination<T> extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             if (index >= items.length) return bottomLoader;
 
-            return itemBuilder(context, items[index], index);
+            final previous = index == 0 ? null : items[index - 1];
+
+            return itemBuilder(context, items[index], previous, index);
           },
           gridDelegate: gridDelegate,
         );
@@ -135,7 +139,9 @@ class BuildPagination<T> extends StatelessWidget {
               (int index) {
                 if (index >= items.length) return bottomLoader;
 
-                return itemBuilder(context, items[index], index);
+                final previous = index == 0 ? null : items[index - 1];
+
+                return itemBuilder(context, items[index], previous, index);
               },
             ),
           ),
